@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { girls } from '../data';
+import { selectGender } from '../actions';
 
 const styles = {
     image: {
@@ -10,8 +12,8 @@ const styles = {
 }
 
 class Tournament extends Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
 
         this.people = girls.slice(0,16);
         this.winner = [];
@@ -20,6 +22,12 @@ class Tournament extends Component {
             final: false
         }
         this.handleImage = this.handleImage.bind(this);
+        this.imagePath = '../images/females/';
+    }
+
+    componentWillMount() {
+        // console.log("SELECTGEN: ", this.props.match.params)
+        this.props.selectGender(this.props.match.params);
     }
 
     handleImage(index) {
@@ -51,9 +59,16 @@ class Tournament extends Component {
     competition() {
         return (
             <div>
-                <img onClick={() => {this.handleImage(this.state.index)}} style={styles.image} src={this.people[this.state.index]} />
-                <img onClick={() => {this.handleImage(this.state.index + 1)}} style={styles.image} src={this.people[this.state.index + 1]} />
-
+                <img 
+                    onClick={() => {this.handleImage(this.state.index)}} 
+                    style={styles.image} 
+                    src={this.imagePath + this.people[this.state.index]} 
+                />
+                <img 
+                    onClick={() => {this.handleImage(this.state.index + 1)}} 
+                    style={styles.image} 
+                    src={this.imagePath + this.people[this.state.index + 1]} 
+                />
             </div>
         )
     }
@@ -61,7 +76,7 @@ class Tournament extends Component {
     renderWinner() {
         return (
             <div>
-                <img src={this.people[this.winner[0]]} />
+                <img src={this.imagePath + this.people[this.winner[0]]} />
             </div>
         )
     }
@@ -83,5 +98,11 @@ class Tournament extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        game: state.game
+    }
+}
 
-export default Tournament;
+
+export default connect(mapStateToProps, {selectGender})(Tournament);

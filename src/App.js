@@ -14,7 +14,7 @@ class App extends Component {
         <div className="App">
           <Switch>
             <Route path="/upload" component={ Upload } />
-            <Route path="/tournament" component={ Tournament } />
+            <Route path="/tournament/:gender" component={ Tournament } />
             <Route path="/" component = { Home } />
           </Switch>
         </div>
