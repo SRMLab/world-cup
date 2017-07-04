@@ -2,7 +2,8 @@ import { girls, boys } from '../data';
 
 const initialState = {
   selected_gender: null,
-  people: []
+  people: [],
+  winner: []
 };
 
 export default function(state =  initialState, action) {
@@ -15,7 +16,15 @@ export default function(state =  initialState, action) {
     return {
       ...state, selected_gender: action.payload, people
     };
+
+  case 'PERSON_SELECTED':
+    const winner = [...state.winner, action.payload]
+    return {
+      ...state, winner
+    }
   }
+  
+
   
   return state;
 }
